@@ -3,7 +3,7 @@ name: Deploy Next.js to GitHub Pages
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   deploy:
@@ -16,15 +16,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20' # ✅ Use Node.js 20 (LTS and compatible with latest Next.js)
+          node-version: '20' # ✅ Next.js 14+ requires Node 18.17 or higher
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build and Export
-        run: |
-          npm run build
-          npm run export
+      - name: Build static site
+        run: npm run build
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
