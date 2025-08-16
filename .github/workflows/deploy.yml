@@ -1,9 +1,9 @@
-name: Deploy Landing Page to GitHub Pages
+name: Deploy Next.js to GitHub Pages
 
 on:
   push:
     branches:
-      -  master
+      - main  # Trigger deployment when changes are pushed to the main branch
 
 jobs:
   deploy:
@@ -14,17 +14,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Set up Node.js
+      # Set up Node.js (Use Node.js 18 or higher)
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16'  # You can use the version of Node you need
+          node-version: '18'  # Use Node.js 18.x or higher
 
       # Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Build and export the Next.js app
+      # Build and Export the Next.js app
       - name: Build and Export
         run: npm run deploy
 
