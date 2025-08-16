@@ -1,0 +1,40 @@
+name: Deploy Landing Page to GitHub Pages
+
+on:
+  push:
+    branches:
+      -  master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'  # You can use the version of Node you need
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Build and export the Next.js app
+      - name: Build and Export
+        run: npm run deploy
+
+      # Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
+          # For the deploy branch
+          branch: gh-pages
+          # Add the base directory if needed
+          # cname: "your-custom-domain.com"  # Uncomment if using a custom domain
