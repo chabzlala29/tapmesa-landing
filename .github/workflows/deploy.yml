@@ -3,38 +3,32 @@ name: Deploy Next.js to GitHub Pages
 on:
   push:
     branches:
-      - main  # Trigger deployment when changes are pushed to the main branch
+      - master
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout the repository
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      # Set up Node.js (Use Node.js 18 or higher)
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '18'  # Use Node.js 18.x or higher
+          node-version: '20' # ✅ Use Node.js 20 (LTS and compatible with latest Next.js)
 
-      # Install dependencies
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      # Build and Export the Next.js app
       - name: Build and Export
-        run: npm run deploy
+        run: |
+          npm run build
+          npm run export
 
-      # Deploy to GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./out
-          # For the deploy branch
           branch: gh-pages
-          # Add the base directory if needed
-          # cname: "your-custom-domain.com"  # Uncomment if using a custom domain
